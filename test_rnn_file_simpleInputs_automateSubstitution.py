@@ -86,7 +86,7 @@ X_val[:, 27] = bmiScaler.transform(X_val[:, 27])
 ## ANN setup
 
 # simple version
-nodes = 256
+nodes = 512
 
 # initialise
 classifier = Sequential()
@@ -95,9 +95,16 @@ classifier.add(Dense(activation="relu", units=nodes, input_dim=28))
 classifier.add(Dropout(0.5))
 
 # add hidden layer
-#classifier.add(Dense(activation="relu", units=nodes))
-#classifier.add(Dropout(0.5))
 classifier.add(Dense(activation="relu", units=nodes))
+classifier.add(Dropout(0.5))
+classifier.add(Dense(activation="relu", units=nodes))
+classifier.add(Dropout(0.5))
+classifier.add(Dense(activation="relu", units=nodes))
+classifier.add(Dropout(0.5))
+classifier.add(Dense(activation="relu", units=nodes))
+classifier.add(Dropout(0.5))
+classifier.add(Dense(activation="relu", units=nodes))
+classifier.add(Dropout(0.5))
 
 # add output layer
 classifier.add(Dense(activation="sigmoid", units=1))
@@ -106,7 +113,9 @@ classifier.add(Dense(activation="sigmoid", units=1))
 classifier.compile(optimizer = 'adam', loss = 'binary_crossentropy', metrics = ['accuracy'])
 
 # fit the ann to the training set
-history = classifier.fit(X_train, y_train, batch_size = 128, epochs = 16, validation_data = (X_val, y_val))
+history = classifier.fit(X_train, y_train, batch_size = 128, epochs = 64, validation_data = (X_val, y_val))
+
+
 
 # plot losses
 import matplotlib.pyplot as plt
@@ -139,7 +148,7 @@ roc_auc_score(y_test, y_pred)
 
 
 
-dense_node_n = 28
+dense_node_n = 1024
 # a = input the drug dataset (2-dimensional: IDs, timesteps)
 diag_set = Input(shape = (len(X_train[0]), ), dtype='float32', name = 'diag_set')
 # embed drug layer
